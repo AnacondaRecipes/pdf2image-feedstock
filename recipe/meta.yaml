@@ -28,6 +28,10 @@ requirements:
 test:
   imports:
     - pdf2image
+  requires:
+    - pip
+  commands:
+    - pip check
 
 about:
   home: https://github.com/Belval/pdf2image
