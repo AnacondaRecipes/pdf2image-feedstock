@@ -1,5 +1,5 @@
 {% set name = "pdf2image" %}
-{% set version = "1.16.2" %}
+{% set version = "1.17.0" %}
 
 package:
   name: {{ name|lower }}
@@ -7,20 +7,23 @@ package:
 
 source:
   url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  sha256: 86761091eee35f4641ea98dfddb254254361d018be698a199aff7c1d37331803
+  sha256: eaa959bc116b420dd7ec415fcae49b98100dda3dd18cd2fdfa86d09f112f6d57
 
 build:
-  noarch: python
   number: 0
-  script: '{{ PYTHON }} -m pip install . -vv '
+  skip: True    # [py<37]
+  script: {{ PYTHON }} -m pip install . --no-deps --no-build-isolation -vv
 
 requirements:
   host:
+    - python
     - pip
-    - python >=3
+    - setuptools
+    - wheel
   run:
-    - python >=3
+    - python
     - pillow
+    - poppler
 
 test:
   imports:
@@ -28,10 +31,14 @@ test:
 
 about:
   home: https://github.com/Belval/pdf2image
+  doc_url: https://belval.github.io/pdf2image
+  dev_url: https://github.com/Belval/pdf2image
   license: MIT
   license_family: MIT
-  license_file: LICENSE.txt
-  summary: A wrapper around the pdftoppm and pdftocairo command line tools to convert PDF to a PIL Image list.
+  license_file: LICENSE
+  summary: A python (3.7+) module that wraps pdftoppm and pdftocairo to convert PDF to a PIL Image object
+  description: A python (3.7+) module that wraps pdftoppm and pdftocairo to convert PDF to a PIL Image object
+  
 
 extra:
   recipe-maintainers:
