@@ -1,37 +1,60 @@
 {% set name = "pdf2image" %}
-{% set version = "1.16.2" %}
+{% set version = "1.17.0" %}
 
 package:
   name: {{ name|lower }}
   version: {{ version }}
 
 source:
-  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  sha256: 86761091eee35f4641ea98dfddb254254361d018be698a199aff7c1d37331803
+  url: https://github.com/Belval/{{ name }}/archive/refs/tags/v{{ version }}.tar.gz
+  sha256: 61fc5e3d0970f1108d1e3615aa6c304ab798e41a97c4944429d4502fb5abcd39
+  patches:
+    - patches/0001-skip-failing-tests.patch
+    - patches/0002-skip-failing-tests-on-win.patch  # [win]
 
 build:
-  noarch: python
   number: 0
-  script: '{{ PYTHON }} -m pip install . -vv '
+  skip: True    # [py<37]
+  script: {{ PYTHON }} -m pip install . --no-deps --no-build-isolation -vv
 
 requirements:
+  build:
+    - patch     # [not win]
+    - m2-patch  # [win] 
   host:
+    - python
     - pip
-    - python >=3
+    - setuptools
+    - wheel
   run:
-    - python >=3
+    - python
     - pillow
+    # poppler is a requirement (see upstream README.md)
+    - poppler
 
 test:
   imports:
     - pdf2image
+  requires:
+    - pip
+    - python
+  source_files:
+    - tests/
+    - tests.py
+  commands:
+    - pip check
+    - python -m unittest tests.py -v
 
 about:
   home: https://github.com/Belval/pdf2image
+  doc_url: https://belval.github.io/pdf2image
+  dev_url: https://github.com/Belval/pdf2image
   license: MIT
   license_family: MIT
-  license_file: LICENSE.txt
-  summary: A wrapper around the pdftoppm and pdftocairo command line tools to convert PDF to a PIL Image list.
+  license_file: LICENSE
+  summary: A python module that wraps pdftoppm and pdftocairo to convert PDF to a PIL Image object
+  description: A python module that wraps pdftoppm and pdftocairo to convert PDF to a PIL Image object
+  
 
 extra:
   recipe-maintainers:
