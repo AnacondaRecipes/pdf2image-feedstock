@@ -23,6 +23,7 @@ requirements:
   run:
     - python
     - pillow
+    # poppler is a requirement (see upstream README.md)
     - poppler
 
 test:
@@ -32,6 +33,7 @@ test:
     - pip
   commands:
     - pip check
+    - pdftoppm -v
 
 about:
   home: https://github.com/Belval/pdf2image
