@@ -42,7 +42,7 @@ test:
     - tests.py
   commands:
     - pip check
-    - python tests.py
+    - python -m unittest tests.py -v
 
 about:
   home: https://github.com/Belval/pdf2image
