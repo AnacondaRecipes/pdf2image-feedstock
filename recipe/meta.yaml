@@ -40,8 +40,8 @@ about:
   license: MIT
   license_family: MIT
   license_file: LICENSE
-  summary: A python (3.7+) module that wraps pdftoppm and pdftocairo to convert PDF to a PIL Image object
-  description: A python (3.7+) module that wraps pdftoppm and pdftocairo to convert PDF to a PIL Image object
+  summary: A python module that wraps pdftoppm and pdftocairo to convert PDF to a PIL Image object
+  description: A python module that wraps pdftoppm and pdftocairo to convert PDF to a PIL Image object
   
 
 extra:
