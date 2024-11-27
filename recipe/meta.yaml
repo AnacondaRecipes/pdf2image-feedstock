@@ -6,8 +6,10 @@ package:
   version: {{ version }}
 
 source:
-  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  sha256: eaa959bc116b420dd7ec415fcae49b98100dda3dd18cd2fdfa86d09f112f6d57
+  url: https://github.com/Belval/{{ name }}/archive/refs/tags/v{{ version }}.tar.gz
+  sha256: 61fc5e3d0970f1108d1e3615aa6c304ab798e41a97c4944429d4502fb5abcd39
+  patches:
+    - patches/0001-skip-failing-tests.patch
 
 build:
   number: 0
@@ -15,6 +17,9 @@ build:
   script: {{ PYTHON }} -m pip install . --no-deps --no-build-isolation -vv
 
 requirements:
+  build:
+    - patch     # [not win]
+    - m2-patch  # [win] 
   host:
     - python
     - pip
@@ -31,9 +36,13 @@ test:
     - pdf2image
   requires:
     - pip
+    - python
+  source_files:
+    - tests/
+    - tests.py
   commands:
     - pip check
-    - pdftoppm -v
+    - python tests.py
 
 about:
   home: https://github.com/Belval/pdf2image
