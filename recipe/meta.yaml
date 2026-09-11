@@ -18,8 +18,6 @@ build:
   script: {{ PYTHON }} -m pip install . --no-deps --no-build-isolation -vv
 
 requirements:
-  build:
-    - patch     # [not win]
   host:
     - python
     - pip
